@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A1 Foundations · Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F1ED;--card:#fff;--ink:#14110E;--mute:#6b645c;--line:#ddd8cf;--acc:#2f5bea;--accbg:#e8eefe;--ok:#1d8a4e;--okbg:#e2f5ea;--bad:#c63a2f;--badbg:#fbe6e4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15130f;--card:#201d18;--ink:#f1ede6;--mute:#a39b8f;--line:#38332b;--acc:#8aa6ff;--accbg:#232c4d;--ok:#5fd08e;--okbg:#17301f;--bad:#ff8479;--badbg:#3a1d1a}}
+:root[data-theme="dark"]{--bg:#15130f;--card:#201d18;--ink:#f1ede6;--mute:#a39b8f;--line:#38332b;--acc:#8aa6ff;--accbg:#232c4d;--ok:#5fd08e;--okbg:#17301f;--bad:#ff8479;--badbg:#3a1d1a}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding-bottom:5.5rem}
+header{padding:.9rem 1rem .5rem;max-width:760px;margin:auto}
+h1{font-size:1.25rem;margin:0;letter-spacing:-.01em}
+.sub{color:var(--mute);font-size:.85rem}
+.modes{display:flex;gap:.4rem;overflow-x:auto;padding:.7rem 0 .3rem;scrollbar-width:none}
+.modes::-webkit-scrollbar{display:none}
+.modes button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:.4rem .85rem;font:inherit;font-size:.85rem;cursor:pointer;white-space:nowrap}
+.modes button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+@media(prefers-color-scheme:dark){.modes button.on{color:#0c1020}}
+.modes small{opacity:.7;margin-left:.3rem;font-variant-numeric:tabular-nums}
+.wrap{max-width:760px;margin:auto;padding:0 1rem}
+.row{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;margin:.4rem 0 .6rem}
+.info{color:var(--mute);font-size:.85rem}
+.tog{display:flex;border:1px solid var(--line);border-radius:99px;overflow:hidden;background:var(--card)}
+.tog button{border:0;background:none;color:var(--ink);padding:.3rem .8rem;font:inherit;font-size:.8rem;cursor:pointer}
+.tog button.on{background:var(--ink);color:var(--bg)}
+.dots{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.8rem}
+.dots button{width:1.7rem;height:1.7rem;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--mute);font-size:.7rem;cursor:pointer;padding:0}
+.dots .a{background:var(--accbg);border-color:var(--acc);color:var(--ink)}
+.dots .c{background:var(--ok);border-color:var(--ok);color:#fff}
+.dots .w{background:var(--bad);border-color:var(--bad);color:#fff}
+.dots .cur{outline:2px solid var(--ink);outline-offset:1px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem;margin-bottom:.7rem}
+.qn{font-size:.72rem;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+.s{font-size:1.2rem;margin:.25rem 0 .75rem;line-height:1.4}
+.gap{display:inline-block;min-width:3.2rem;border-bottom:2px solid var(--acc);text-align:center;color:var(--acc);font-weight:600}
+.opts{display:grid;gap:.45rem}
+.o{display:flex;align-items:center;gap:.7rem;text-align:left;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:.6rem .8rem;font:inherit;cursor:pointer}
+.o i{font-style:normal;flex:none;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:.72rem;color:var(--mute)}
+.o.sel{border-color:var(--acc);background:var(--accbg)}
+.o.ok{border-color:var(--ok);background:var(--okbg)}
+.o.no{border-color:var(--bad);background:var(--badbg)}
+.o:disabled{cursor:default}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;gap:.5rem;justify-content:center;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom,0px))}
+.bar button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:.55rem 1rem;font:inherit;font-size:.9rem;cursor:pointer}
+.bar .go{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+@media(prefers-color-scheme:dark){.bar .go{color:#0c1020}}
+.bar button:disabled{opacity:.4;cursor:default}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:1rem;z-index:20}
+.ov.show{display:flex}
+.ovc{background:var(--card);border-radius:18px;padding:1.4rem;max-width:460px;width:100%;max-height:88vh;overflow:auto;text-align:center}
+.em{font-size:2.6rem}
+.big{font-size:2.2rem;font-weight:700;font-variant-numeric:tabular-nums}
+.msg{color:var(--mute);margin-bottom:.8rem}
+.bars{text-align:left;margin:.6rem 0}
+.br{display:grid;grid-template-columns:7.5rem 1fr 2.6rem;gap:.5rem;align-items:center;font-size:.82rem;margin:.25rem 0}
+.tr{height:8px;background:var(--line);border-radius:9px;overflow:hidden}
+.tr b{display:block;height:100%;background:var(--acc)}
+.miss{text-align:left;font-size:.88rem;margin:.6rem 0;border-top:1px solid var(--line);padding-top:.6rem}
+.miss p{margin:.3rem 0}
+.miss span{color:var(--ok);font-weight:600}
+.btns{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-top:.8rem}
+.btns button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:.55rem 1rem;font:inherit;cursor:pointer}
+.btns .p{background:var(--acc);border-color:var(--acc);color:#fff}
+@media(prefers-color-scheme:dark){.btns .p{color:#0c1020}}
+.brand{text-align:center;padding:.4rem 0 .9rem}
+.brand b{display:block;font-family:Anton,Impact,"Arial Narrow",sans-serif;font-weight:400;font-size:2.6rem;letter-spacing:.38em;margin-right:-.38em;line-height:1.1;color:var(--ink)}
+.brand span{display:block;font-size:.8rem;color:var(--mute);margin-top:.2rem;letter-spacing:.02em}
+h1{font-size:1.05rem}
+.types{display:flex;gap:.3rem;margin-top:.7rem;padding:.25rem;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.types button{flex:1;border:0;background:none;color:var(--ink);padding:.5rem .3rem;border-radius:9px;font:inherit;font-size:.85rem;font-weight:600;cursor:pointer}
+.types button.on{background:var(--ink);color:var(--bg)}
+.gi{width:6.5rem;border:0;border-bottom:2px solid var(--acc);background:var(--accbg);color:var(--ink);font:inherit;font-weight:600;text-align:center;border-radius:6px 6px 0 0;padding:.05rem .3rem}
+.wi{width:100%;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;border-radius:10px;padding:.6rem .8rem}
+.gi:focus,.wi:focus{outline:2px solid var(--acc)}
+.gi.ok,.wi.ok{border-color:var(--ok);background:var(--okbg)}
+.gi.no,.wi.no{border-color:var(--bad);background:var(--badbg)}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;font-size:.82rem;color:var(--mute);margin-bottom:.4rem}
+.chips span{border:1px solid var(--line);border-radius:99px;padding:.1rem .6rem;color:var(--ink);background:var(--bg)}
+.hint{font-size:.82rem;color:var(--mute);margin-bottom:.4rem}
+.fb{margin-top:.5rem;color:var(--ok);font-weight:600;font-size:.95rem}
+.gh{display:flex;justify-content:space-between;font-weight:700;font-variant-numeric:tabular-nums;margin-bottom:.4rem}
+.gh span:first-child{color:var(--bad)}
+.gostart{border:0;background:var(--acc);color:#fff;font:inherit;font-weight:700;border-radius:12px;padding:.7rem 2.2rem;cursor:pointer}
+@media(prefers-color-scheme:dark){.gostart{color:#0c1020}}
+/* minimalist header */
+header{padding:.9rem 1rem 0}
+.brand{padding:0 0 .8rem}
+.brand b{font-size:1.35rem;letter-spacing:.34em;margin-right:-.34em}
+.brand span{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;margin-top:.3rem}
+.types{width:max-content;max-width:100%;margin:0 auto;padding:.2rem;border-radius:99px;gap:0}
+.types button{flex:none;padding:.4rem .85rem;border-radius:99px;font-size:.78rem}
+.modes{gap:1.1rem;padding:.9rem 0 0;border-bottom:1px solid var(--line)}
+.modes button{border:0;border-bottom:2px solid transparent;border-radius:0;background:none;padding:.2rem 0 .55rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.modes button.on{background:none;color:var(--ink);border-bottom-color:var(--ink)}
+.modes button:first-child{margin-left:auto}
+.modes button:last-child{margin-right:auto}
+.modes small{opacity:.45;font-size:.62rem;margin-left:.35rem}
+.row{margin-top:.8rem}
+.info{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><b>INTUITY</b><span>A1 Foundations · Majid Nashtai</span></div>
+  <div class="types" id="types"></div>
+  <div class="modes" id="modes" role="tablist" aria-label="Topic"></div>
+</header>
+<div class="wrap">
+  <div class="row">
+    <div class="info" id="info"></div>
+    <div class="tog" role="group" aria-label="How much to show">
+      <button class="on" data-v="all" type="button">All</button>
+      <button data-v="one" type="button">One at a time</button>
+    </div>
+  </div>
+  <div class="dots" id="dots"></div>
+  <div id="board"></div>
+</div>
+<div class="bar">
+  <button id="prev" type="button">‹ Prev</button>
+  <button id="again" type="button">Restart</button>
+  <button class="go" id="submit" type="button" disabled>Submit</button>
+  <button id="next" type="button">Next ›</button>
+</div>
+<div class="ov" id="ov"><div class="ovc">
+  <div class="em" id="em"></div><div class="big" id="sc"></div><div class="msg" id="msg"></div>
+  <div class="bars" id="bars"></div><div class="miss" id="miss"></div>
+  <div class="btns">
+    <button class="p" id="onext" type="button">Next topic ›</button>
+    <button id="oagain" type="button">↺ Try again</button>
+    <button id="oclose" type="button">Review answers</button>
+  </div>
+</div></div>
+
+<script>
+/* Format: sentence | option | option | option | index of the correct option */
+const D={
+tenses:{label:"Tenses",q:[
+"She ___ to school every day.|goes|go|going|0",
+"I ___ a student.|am|is|are|0",
+"They ___ football on Saturdays.|plays|play|playing|1",
+"Look! The baby ___ now.|sleeps|is sleeping|sleep|1",
+"Yesterday I ___ to the park.|go|goes|went|2",
+"He ___ TV right now.|watches|is watching|watch|1",
+"We ___ breakfast at 7 o’clock.|have|having|has|0",
+"Last night she ___ a pizza.|eat|ate|eats|1",
+"My father ___ in a bank.|work|working|works|2",
+"___ you like coffee?|Do|Does|Are|0",
+"I ___ my homework yesterday.|did|do|does|0",
+"It ___ rain tomorrow.|is|will|does|1",
+"They ___ playing in the garden now.|is|are|do|1",
+"She ___ not like fish.|do|is|does|2",
+"We ___ at home last Sunday.|are|were|was|1",
+"He ___ a new bike last week.|buys|buy|bought|2",
+"I ___ to music in the evening.|listen|listens|listening|0"]},
+plurals:{label:"Singular / plural",q:[
+"There are three ___ on the table.|book|books|bookes|1",
+"I have two ___.|child|childs|children|2",
+"These ___ my friends.|is|are|am|1",
+"She has a red ___.|apple|apples|appless|0",
+"Two ___ are in the garden.|man|men|mans|1",
+"My ___ hurt after the run.|foot|feet|foots|1",
+"There is one ___ in the box.|cat|cats|cates|0",
+"I see five ___ in the tree.|bird|birds|birdes|1",
+"How many ___ do you have?|box|boxes|boxs|1",
+"The ___ are in the kitchen.|knife|knifes|knives|2",
+"That ___ my dog.|is|are|be|0",
+"We have two ___ in our class.|teacher|teachers|teacheres|1",
+"There are many ___ in the sky.|star|stars|stares|1",
+"I brush my ___ every morning.|tooth|teeths|teeth|2",
+"The ___ is sleeping on the sofa.|dogs|dog|doges|1",
+"She has three ___.|sister|sisters|sisteres|1",
+"There are two ___ on the plate.|sandwich|sandwichs|sandwiches|2"]},
+prepositions:{label:"Prepositions",q:[
+"The book is ___ the table.|on|in|at|0",
+"I get up ___ 7 o’clock.|on|in|at|2",
+"My birthday is ___ May.|in|on|at|0",
+"We have English ___ Monday.|in|on|at|1",
+"The cat is ___ the box.|in|at|to|0",
+"She walks ___ school.|at|to|in|1",
+"He lives ___ London.|in|on|at|0",
+"The ball is ___ the chair, not on it.|under|at|to|0",
+"I am ___ home now.|in|at|to|1",
+"The shop is ___ the bank and the school.|between|under|on|0",
+"We go to school ___ bus.|on|by|in|1",
+"She is good ___ maths.|in|on|at|2",
+"The park is ___ front of my house.|in|on|at|0",
+"I live ___ my parents.|with|at|on|0",
+"He comes ___ Spain.|from|at|in|0",
+"The picture is ___ the wall.|in|on|at|1",
+"We play football ___ the afternoon.|on|at|in|2"]},
+pronouns:{label:"Pronouns",q:[
+"___ am a teacher.|I|Me|My|0",
+"This is my sister. ___ is ten.|He|She|They|1",
+"Give the book to ___.|I|me|my|1",
+"Tom and Anna are friends. ___ are in my class.|They|He|It|0",
+"Where is Tom? I can see ___.|he|his|him|2",
+"This is a cat. ___ is black.|It|She|They|0",
+"Anna is here. I like ___.|she|her|hers|1",
+"My brother and I are tall. ___ play basketball.|We|They|Us|0",
+"Can you help ___, please?|I|my|me|2",
+"The boys are happy. I play with ___.|they|them|their|1",
+"___ is raining today.|It|He|They|0",
+"My mother is a nurse. ___ works at a hospital.|She|He|It|0",
+"Look at Mr Brown. ___ is tall.|He|Him|His|0",
+"I have a new phone. I like ___ very much.|it|they|he|0",
+"Come with ___, Tom!|we|us|our|1",
+"Are ___ from Italy, Maria?|you|your|yours|0",
+"She is my teacher. I listen to ___.|she|her|hers|1"]},
+possessives:{label:"Possessives",q:[
+"This is ___ book. (I)|my|me|mine|0",
+"Is this ___ pen? (you)|you|your|yours|1",
+"That is Tom’s bag. It is ___ bag.|he|him|his|2",
+"Anna has a dog. ___ dog is big.|Her|She|Hers|0",
+"We love ___ teacher.|our|we|ours|0",
+"The cat drinks ___ milk.|it|its|it’s|1",
+"This pen is ___. It belongs to me.|my|me|mine|2",
+"They are ___ parents.|their|they|there|0",
+"That is the girl’s coat. It is ___ coat.|her|she|hers|0",
+"Whose bag is this? It’s ___. (you)|your|yours|you|1",
+"Tom and Ben have a car. It is ___ car.|their|them|they|0",
+"This is ___ bike. (Mary)|Mary|Mary’s|Marys|1",
+"Those are not your keys. They are ___. (me)|my|mine|me|1",
+"The books are on the table. They are ___. (Anna and I)|our|ours|us|1",
+"He washes ___ hands.|he|his|him|1",
+"We wash ___ hands before lunch.|our|ours|we|0",
+"The red house is ___. (they)|their|theirs|them|1"]},
+advadj:{label:"Adverbs & adjectives",q:[
+"She is a ___ girl.|beautiful|beautifully|beauty|0",
+"He runs very ___.|quick|quickly|quicklier|1",
+"The soup is ___.|hot|hotly|heat|0",
+"She speaks English ___.|good|well|goodly|1",
+"My bag is ___ than your bag.|big|bigger|biggest|1",
+"He is the ___ boy in class.|tall|taller|tallest|2",
+"They sing ___.|happy|happily|happiness|1",
+"It is a ___ day today.|sun|sunny|sunnily|1",
+"She ___ drinks coffee. She drinks it every morning.|always|never|hardly|0",
+"This book is ___ than that one.|good|better|best|1",
+"The test is not ___. It is easy.|difficult|difficultly|difficulty|0",
+"He drives ___. It is dangerous.|fast|fastly|fasten|0",
+"The weather is ___ today.|badly|bad|badder|1",
+"She is ___ tired.|very|much|many|0",
+"That was the ___ film of the year.|funny|funnier|funniest|2",
+"Listen ___, please.|careful|carefully|care|1",
+"The children are ___ in the garden.|happy|happily|happier|0"]}
+};
+const KEYS=["mixed",...Object.keys(D)],KEY="a1_hybrid_scores";
+const TYPES=[["mc","Multiple choice"],["gap","Gap-fill"],["write","Write"],["game","Game"]];
+const LABEL=k=>k=="mixed"?(type=="game"?"All topics":"Mixed (20)"):D[k].label;
+const $=s=>document.querySelector(s);
+const sh=a=>{a=a.slice();for(let i=a.length;i>1;){const j=Math.random()*i--|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const rd=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}};
+const wr=o=>{try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}};
+const mk=(raw,cat)=>{const p=raw.split("|"),a=+p.pop(),t=p.shift();return{t,cat,o:sh(p.map((x,i)=>({x,ok:i==a}))),pick:-1,v:""}};
+const ans=q=>q.o.find(o=>o.ok).x, full=q=>q.t.replace("___",ans(q));
+const norm=s=>s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.!?]+$/,"").replace(/\s+/g," ").trim();
+const esc=s=>s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+let type="mc",mode="mixed",qs=[],view="all",idx=0,done=false,G={on:false};
+const sk=()=>type+":"+mode;
+const got=q=>type=="mc"?q.pick>=0:q.v.trim()!=="";
+const right=q=>type=="mc"?(q.pick>=0&&q.o[q.pick].ok):norm(q.v)==norm(type=="gap"?ans(q):full(q));
+
+function build(m){
+  mode=m;idx=0;done=false;$("#ov").classList.remove("show");
+  clearInterval(G.t);G={on:false};
+  if(type!="game"){
+    if(m=="mixed"){const all=[];for(const k in D)D[k].q.forEach(s=>all.push([k,s]));qs=sh(all).slice(0,20).map(([k,s])=>mk(s,k))}
+    else qs=sh(D[m].q).map(s=>mk(s,m));
+  }
+  draw();
+}
+function tabs(){
+  const sc=rd(),u=type=="game"?" pts":"%";
+  $("#types").innerHTML=TYPES.map(([t,l])=>`<button type="button" data-t="${t}" class="${t==type?"on":""}">${l}</button>`).join("");
+  $("#modes").innerHTML=KEYS.map(k=>{const b=sc[type+":"+k];return`<button type="button" data-m="${k}" class="${k==mode?"on":""}">${LABEL(k)}${b?`<small>${b.best}${u}</small>`:""}</button>`}).join("");
+}
+function sentence(q){return q.t.replace("___",`<span class="gap">${q.pick>=0?q.o[q.pick].x:"___"}</span>`)}
+function head(){
+  const g=type=="game",n=qs.length,a=qs.filter(got).length;
+  $(".row").style.display=$("#dots").style.display=g?"none":"";
+  $("#prev").style.display=$("#next").style.display=(g||view!="one")?"none":"";
+  $("#submit").style.display=g?"none":"";
+  $("#again").style.display=(g&&!G.on)?"none":"";
+  if(g)return;
+  $("#info").textContent=done?`${n} questions · scored`:`${n} questions · ${a} answered`;
+  $("#dots").innerHTML=qs.map((q,i)=>{let c=done?(right(q)?"c":"w"):got(q)?"a":"";if(view=="one"&&i==idx)c+=" cur";return`<button type="button" data-i="${i}" class="${c}" aria-label="Question ${i+1}">${i+1}</button>`}).join("");
+  $("#submit").disabled=done||(type=="mc"?a<n:a<1);
+  $("#prev").disabled=idx==0;$("#next").disabled=idx==n-1;
+}
+function card(q,i){
+  let s,body="",st=done?(right(q)?"ok":"no"):"";
+  const inp=(c)=>`<input class="${c} ${st}" data-q="${i}" value="${esc(q.v)}"${done?" disabled":""} autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer">`;
+  if(type=="mc"){
+    s=sentence(q);
+    body=`<div class="opts">${q.o.map((o,j)=>{let c="o";if(done)c+=o.ok?" ok":(j==q.pick?" no":"");else if(j==q.pick)c+=" sel";return`<button type="button" class="${c}" data-q="${i}" data-o="${j}"${done?" disabled":""}><i>${"ABC"[j]}</i>${o.x}</button>`}).join("")}</div>`;
+  }else if(type=="gap"){
+    s=q.t.replace("___",inp("gi"));
+  }else{
+    s=q.t.replace("___",`<span class="gap">___</span>`);
+    body=`<div class="chips">Choose from: ${q.o.map(o=>`<span>${o.x}</span>`).join("")}</div><div class="hint">Write the whole sentence.</div>${inp("wi")}`;
+  }
+  if(done&&type!="mc"&&!right(q))body+=`<div class="fb">✓ ${full(q)}</div>`;
+  return`<div class="q"><div class="qn">Question ${i+1}${mode=="mixed"?" · "+D[q.cat].label:""}</div><div class="s">${s}</div>${body}</div>`;
+}
+function draw(){
+  tabs();head();
+  if(type=="game")return drawGame();
+  $("#board").innerHTML=qs.map((q,i)=>view=="one"&&i!=idx?"":card(q,i)).join("");
+}
+function submit(){
+  done=true;
+  const n=qs.length,s=qs.filter(right).length,p=Math.round(s/n*100),sc=rd(),k=sk();
+  const old=sc[k]||{best:0,tries:0};
+  sc[k]={best:Math.max(old.best,p),last:p,tries:old.tries+1};wr(sc);
+  const by={};qs.forEach(q=>{const b=by[q.cat]||(by[q.cat]={r:0,t:0});b.t++;if(right(q))b.r++});
+  $("#em").textContent=p>=90?"🏆":p>=70?"🎉":p>=50?"👍":"💪";
+  $("#sc").textContent=`${s} / ${n} · ${p}%`;
+  $("#msg").textContent=(p>=90?"Excellent work!":p>=70?"Well done!":p>=50?"Good effort. Review the red answers.":"Keep practising. Try again!")+` Best: ${sc[k].best}% · Attempts: ${sc[k].tries}`;
+  $("#bars").innerHTML=Object.keys(by).map(c=>{const b=by[c],pc=Math.round(b.r/b.t*100);return`<div class="br"><span>${D[c].label}</span><div class="tr"><b style="width:${pc}%"></b></div><span>${b.r}/${b.t}</span></div>`}).join("");
+  const miss=qs.filter(q=>!right(q));
+  $("#miss").innerHTML=miss.length?"<b>To review</b>"+miss.map(q=>`<p>${q.t.replace("___",`<span>${ans(q)}</span>`)}</p>`).join(""):"<b>No mistakes. Perfect!</b>";
+  $("#ov").classList.add("show");draw();
+}
+
+/* ── GAME: 60-second blitz, 3 lives, streak bonus ── */
+function gNext(){if(G.p>=G.pool.length){G.pool=sh(G.pool);G.p=0}const[k,s]=G.pool[G.p++];return mk(s,k)}
+function gStart(){
+  clearInterval(G.t);$("#ov").classList.remove("show");
+  const raw=[];(mode=="mixed"?Object.keys(D):[mode]).forEach(k=>D[k].q.forEach(s=>raw.push([k,s])));
+  G={on:true,pool:sh(raw),p:0,lives:3,score:0,streak:0,right:0,miss:[],lock:false,end:Date.now()+60000};
+  G.q=gNext();G.t=setInterval(gTick,250);draw();
+}
+function gTick(){
+  if(!G.on)return;
+  const left=Math.max(0,(G.end-Date.now())/1000),t=$("#gt"),b=$("#gb");
+  if(t)t.textContent=Math.ceil(left)+"s";if(b)b.style.width=left/60*100+"%";
+  if(left<=0)gEnd();
+}
+function gAnswer(j){
+  if(G.lock)return;G.lock=true;
+  const q=G.q;q.pick=j;
+  if(q.o[j].ok){G.streak++;G.right++;G.score+=10+Math.min(G.streak,5)*2}
+  else{G.streak=0;G.lives--;G.miss.push(q)}
+  draw();
+  setTimeout(()=>{if(!G.on)return;if(G.lives<=0)return gEnd();G.q=gNext();G.lock=false;draw()},q.o[j].ok?450:1100);
+}
+function gEnd(){
+  if(!G.on)return;
+  clearInterval(G.t);G.on=false;G.last=G.score;
+  const sc=rd(),k=sk(),old=sc[k]||{best:0,tries:0};
+  sc[k]={best:Math.max(old.best,G.score),last:G.score,tries:old.tries+1};wr(sc);
+  $("#em").textContent=G.score>=200?"🏆":G.score>=100?"🎉":"💪";
+  $("#sc").textContent=`${G.score} pts`;
+  $("#msg").textContent=`${G.right} correct · Best: ${sc[k].best} pts · Plays: ${sc[k].tries}`;
+  $("#bars").innerHTML="";
+  $("#miss").innerHTML=G.miss.length?"<b>To review</b>"+G.miss.map(q=>`<p>${q.t.replace("___",`<span>${ans(q)}</span>`)}</p>`).join(""):"<b>No mistakes. Perfect!</b>";
+  $("#ov").classList.add("show");draw();
+}
+function drawGame(){
+  const b=$("#board");
+  if(!G.on){
+    b.innerHTML=`<div class="q" style="text-align:center"><div class="s">⚡ Blitz</div><p class="info">60 seconds · 3 lives · 10 points for each right answer, plus a bonus for streaks. Choose a topic above, then press Start.</p>${G.last!=null?`<p><b>Last score: ${G.last} pts</b></p>`:""}<button type="button" class="gostart" data-g="start">Start</button></div>`;
+    return;
+  }
+  const q=G.q;
+  b.innerHTML=`<div class="gh"><span>${"♥".repeat(G.lives)}${"♡".repeat(3-G.lives)}</span><span id="gt">60s</span><span>${G.score} pts${G.streak>1?" · 🔥"+G.streak:""}</span></div><div class="tr"><b id="gb" style="width:100%"></b></div><div class="q"><div class="s">${sentence(q)}</div><div class="opts">${q.o.map((o,j)=>{let c="o";if(q.pick>=0){if(o.ok)c+=" ok";else if(j==q.pick)c+=" no"}return`<button type="button" class="${c}" data-g="a" data-o="${j}"${q.pick>=0?" disabled":""}><i>${"ABC"[j]}</i>${o.x}</button>`}).join("")}</div></div>`;
+  gTick();
+}
+
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button");if(!t)return;
+  if(t.dataset.t){type=t.dataset.t;return build(mode)}
+  if(t.dataset.m)return build(t.dataset.m);
+  if(t.dataset.v){view=t.dataset.v;document.querySelectorAll(".tog button").forEach(b=>b.classList.toggle("on",b==t));return draw()}
+  if(t.dataset.i){idx=+t.dataset.i;if(view=="one")draw();else{const c=$("#board").children[idx];c&&c.scrollIntoView({behavior:"smooth",block:"center"})}return}
+  if(t.dataset.g=="start")return gStart();
+  if(t.dataset.g=="a")return gAnswer(+t.dataset.o);
+  if(t.dataset.q&&!done){const q=qs[+t.dataset.q];q.pick=+t.dataset.o;if(view=="one"&&idx<qs.length-1){draw();setTimeout(()=>{idx++;draw()},250)}else draw();return}
+  if(t.id=="submit")submit();
+  if(t.id=="again")type=="game"?gStart():build(mode);
+  if(t.id=="oagain")type=="game"?gStart():build(mode);
+  if(t.id=="prev"&&idx>0){idx--;draw()}
+  if(t.id=="next"&&idx<qs.length-1){idx++;draw()}
+  if(t.id=="oclose")$("#ov").classList.remove("show");
+  if(t.id=="onext")build(KEYS[(KEYS.indexOf(mode)+1)%KEYS.length]);
+});
+document.addEventListener("input",e=>{
+  if(e.target.tagName!="INPUT")return;
+  qs[+e.target.dataset.q].v=e.target.value;head();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key!="Enter"||e.target.tagName!="INPUT")return;
+  e.preventDefault();const i=+e.target.dataset.q;
+  if(view=="one"){if(i<qs.length-1){idx=i+1;draw();const f=$("#board input");f&&f.focus()}}
+  else{const ins=[...document.querySelectorAll("#board input")],nx=ins[ins.indexOf(e.target)+1];nx&&nx.focus()}
+});
+build("mixed");
+</script>
+</body>
+</html>
